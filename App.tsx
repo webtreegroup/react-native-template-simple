@@ -1,33 +1,18 @@
-import React, { useCallback, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { AddTodo } from './src/AddTodo';
-import { Navbar } from './src/Navbar';
-import { Todos, TodoProps } from './src/Todos';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { AboutScreen } from './src/pages/AboutScreen';
+import { HomeScreen } from './src/pages/HomeScreen';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [todos, setTodos] = useState<TodoProps[]>([])
-
-  const handleAddTodo = useCallback((todo?: TodoProps) => {
-    if (!todo) return
-
-    setTodos((prev) => [...prev, todo])
-  }, [])
-
-  const handleRemoveTodo = useCallback((id?: number) => {
-    if (!id) return
-
-    setTodos((prev) => prev.filter(el => el.id !== id))
-  }, [])
-
   return (
-    <View style={styles.container}>
-      <Navbar />
-      <AddTodo onAddTodo={handleAddTodo} />
-      <Todos todos={todos} onRemoveTodo={handleRemoveTodo} />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="About" component={AboutScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {},
-});
